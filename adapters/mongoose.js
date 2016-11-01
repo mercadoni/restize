@@ -17,8 +17,6 @@
 	var cacheSettings = {};
 	var predefinedQueries = {};
 
-
-
 	var opEquivalence = {
 		'lt': '$lt',
 		'lte': '$lte',
@@ -31,6 +29,16 @@
 		'nin': '$nin',
 		'isnull': '',
 		'size': '$size'
+	};
+
+	var validBool = {
+		false: true,
+		true: true
+	};
+
+	var bool = {
+		false: false,
+		true: true
 	};
 
 	var defaultDiacriticsRemovalMapSingle = {
@@ -272,6 +280,7 @@
 			if (query[x]['$gte'] && isNaN(query[x]['$gte'])) query[x]['$gte'] = new Date(query[x]['$gte']);
 			if (query[x]['$gt'] && isNaN(query[x]['$gt'])) query[x]['$gt'] = new Date(query[x]['$gt']);
 			if (query[x]['$lt'] && isNaN(query[x]['$lt'])) query[x]['$lt'] = new Date(query[x]['$lt']);
+			if (validBool[query[x]]) query[x] = bool[query[x]];
 		}
 
 		if (predefinedQueries && predefinedQueries[data['_predefined']]) {
