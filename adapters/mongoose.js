@@ -274,13 +274,14 @@
 		}
 
 		//change this to parse if is date
-
+		var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
 		for (var x in query) {
 			if (query[x]['$lte'] && isNaN(query[x]['$lte'])) query[x]['$lte'] = new Date(query[x]['$lte']);
 			if (query[x]['$gte'] && isNaN(query[x]['$gte'])) query[x]['$gte'] = new Date(query[x]['$gte']);
 			if (query[x]['$gt'] && isNaN(query[x]['$gt'])) query[x]['$gt'] = new Date(query[x]['$gt']);
 			if (query[x]['$lt'] && isNaN(query[x]['$lt'])) query[x]['$lt'] = new Date(query[x]['$lt']);
 			if (validBool[query[x]]) query[x] = bool[query[x]];
+			if (checkForHexRegExp.test(query[x])) query[x] = mongoose.Types.ObjectId(query[x]);
 		}
 
 		if (predefinedQueries && predefinedQueries[data['_predefined']]) {
