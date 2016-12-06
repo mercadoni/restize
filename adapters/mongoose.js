@@ -281,6 +281,11 @@
 			if (query[x]['$gt'] && isNaN(query[x]['$gt'])) query[x]['$gt'] = new Date(query[x]['$gt']);
 			if (query[x]['$lt'] && isNaN(query[x]['$lt'])) query[x]['$lt'] = new Date(query[x]['$lt']);
 			if (validBool[query[x]]) query[x] = bool[query[x]];
+			if (query[x]['$in']) {
+				for (var y in query[x]['$in']) {
+					if (checkForHexRegExp.test(query[x]['$in'][y])) query[x]['$in'][y] = mongoose.Types.ObjectId(query[x]['$in'][y]);
+				}
+			}
 			if (checkForHexRegExp.test(query[x])) query[x] = mongoose.Types.ObjectId(query[x]);
 		}
 
@@ -296,6 +301,15 @@
 						});
 					} else
 						newQuery['$and'][0]['address.city.code'] = query[x];
+				}
+
+				if (x === 'retailer_products.zone') {
+					if (newQuery['$or']) {
+						newQuery['$or'].forEach(function(orquery) {
+							orquery['$and'][0]['retailer_products.zone'] = query[x];
+						});
+					} else
+						newQuery['$and'][0]['retailer_products.zone'] = query[x];
 				}
 			}
 			query = newQuery;
