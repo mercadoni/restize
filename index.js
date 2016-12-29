@@ -17,7 +17,7 @@ exports.init = function(app, options) {
 	appOptions = options || {};
 	appOptions.admin_base = appOptions.admin_base || '/admin';
 	adminAuth = appOptions.admin_auth || appOptions.auth || emptyMiddleware;
-	appHandler.use('/admin', express.static(__dirname + appOptions.admin_base));
+	appHandler.use('/admin', [adminAuth, express.static(__dirname + appOptions.admin_base)]);
 	appHandler.get(appOptions.admin_base + '/services', adminAuth, function(req, res) {
 		res.send(services);
 	});
