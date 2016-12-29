@@ -17,11 +17,6 @@ exports.init = function(app, options) {
 	appOptions = options || {};
 	appOptions.admin_base = appOptions.admin_base || '/admin';
 	adminAuth = appOptions.admin_auth || appOptions.auth || emptyMiddleware;
-	appHandler.use('/admin', express.static(__dirname + appOptions.admin_base));
-	appHandler.get(appOptions.admin_base + '/services', adminAuth, function(req, res) {
-		res.send(services);
-	});
-
 };
 
 //CROSS middleware
@@ -97,18 +92,6 @@ exports.register = function(path, options, callback) {
 	appHandler.put(pathWithId, handler.getMiddlewares('update'));
 	appHandler.delete(pathWithId, handler.getMiddlewares('destroy'));
 
-
-	var adminPath = appOptions.admin_base + options.path;
-	var adminPathWithId = new RegExp('^' + adminPath + '/' + handler.getIdValidator() + '$');
-
-
-	// Admin URLs
-	appHandler.get(adminPath, handler.getMiddlewares('list', true));
-	appHandler.get(adminPathWithId, handler.getMiddlewares('read', true));
-	appHandler.get(adminPath + '/schema', handler.schema());
-	appHandler.post(adminPath, handler.getMiddlewares('create', true));
-	appHandler.put(adminPathWithId, handler.getMiddlewares('update', true));
-	appHandler.delete(adminPathWithId, handler.getMiddlewares('destroy', true));
 
 	handlers[options.path] = handler;
 
