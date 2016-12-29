@@ -95,10 +95,6 @@ exports.register = function(path, options, callback) {
 
 	handlers[options.path] = handler;
 
-	services.push(
-		adminPath + "/schema"
-	);
-
 
 	console.log('REGISTERING ' + options.path);
 
