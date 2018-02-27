@@ -1,7 +1,7 @@
 {
 	"name": "restize",
 	"description": "Insanely easy API generator and publisher for Node JS",
-	"version": "0.6.8",
+	"version": "0.7.4-alpha",
 	"author": {
 		"name": "German Gonzalez",
 		"email": "restize@inmedia.co"

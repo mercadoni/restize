@@ -606,10 +606,16 @@
 		}
 		//Dont use findAndUpdate Reason: http://github.com/LearnBoost/mongoose/issues/964
 		model.findById(id, function(err, doc) {
-			for (var field in data) {
-				doc[field] = data[field];
+			if(err) {
+				console.log("Could not find model with id ", id, err);
+				console.log(doc);
+				callback(err, doc);
+			} else {
+				for (var field in data) {
+					doc[field] = data[field];
+				}
+				doc.save(callback);
 			}
-			doc.save(callback);
 		});
 	};
 	//------------------------------
